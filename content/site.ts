@@ -115,6 +115,94 @@ export const tools = [
   },
 ];
 
+export interface ProjectResult {
+  name: string;
+  setup: string;
+  ret: string;
+  sharpe: string;
+  drawdown: string;
+  period: string;
+  kind: string;
+  note: string;
+  href: string;
+  benchmark?: boolean;
+}
+
+// Return comes first, and every row carries its risk, period and segment.
+export const projectResults: ProjectResult[] = [
+  {
+    name: "Multi-asset alpha engine",
+    setup: "15 ETFs, machine-learning views in Black-Litterman, monthly rebalance, after costs",
+    ret: "10.70%",
+    sharpe: "0.46",
+    drawdown: "-28.89%",
+    period: "2020-01-01 to 2024-12-31",
+    kind: "Walk-forward backtest",
+    note: "Black-Litterman without the machine-learning views: 8.79% return, Sharpe 0.33.",
+    href: `${GITHUB}/Alpha-Engine`,
+  },
+  {
+    name: "Next-day stock return prediction",
+    setup: "AAPL, tuned random forest, long only",
+    ret: "7.46% total",
+    sharpe: "0.13",
+    drawdown: "-33.49%",
+    period: "2022 to 2023 (500 days)",
+    kind: "Backtest",
+    note: "Total return over the period, not annualised. Buy and hold: 6.99%, Sharpe 0.12, drawdown -30.02%.",
+    href: `${GITHUB}/Stock-Return-Prediction`,
+  },
+  {
+    name: "BRAIN volume-price alpha family",
+    setup: "WorldQuant BRAIN Fast Expression signals",
+    ret: "[ADD RETURN]",
+    sharpe: "1.33",
+    drawdown: "[ADD]",
+    period: "[ADD PERIOD]",
+    kind: "BRAIN simulation",
+    note: "Fitness 0.55, below the 1.0 submission bar. Turnover and return to be added.",
+    href: "https://rxj0102.github.io",
+  },
+  {
+    name: "BRAIN buzz signal as a filter",
+    setup: "WorldQuant BRAIN, used as a conditional filter",
+    ret: "[ADD RETURN]",
+    sharpe: "1.54",
+    drawdown: "[ADD]",
+    period: "[ADD PERIOD]",
+    kind: "BRAIN simulation",
+    note: "[ADD FITNESS AND TURNOVER]",
+    href: "https://rxj0102.github.io",
+  },
+  {
+    name: "SPY buy and hold",
+    setup: "Benchmark for the alpha engine",
+    ret: "15.64%",
+    sharpe: "0.60",
+    drawdown: "-33.93%",
+    period: "2020-01-01 to 2024-12-31",
+    kind: "Benchmark",
+    note: "Higher return than the alpha engine over the same window.",
+    href: `${GITHUB}/Alpha-Engine`,
+    benchmark: true,
+  },
+];
+
+export const projectLessons = [
+  {
+    title: "Alpha engine trailed SPY",
+    text: "It earned about 5 points a year less than SPY (10.7% against 15.6%) with a lower Sharpe (0.46 against 0.60). The deflated Sharpe ratio of 0.368 is below the 1.251 threshold for 15 trials, so the edge is not established. It did run at a beta of 0.58 with a shallower drawdown (-28.9% against -33.9%).",
+  },
+  {
+    title: "Return prediction found no real edge",
+    text: "The strategy returned 7.46% against 6.99% for buy and hold over 500 days, with a larger drawdown (-33.5% against -30.0%) and a Sharpe of 0.13 against 0.12. That gap is within noise.",
+  },
+  {
+    title: "Machine learning did not beat HAR-RV",
+    text: "On next-day SPY volatility, the best machine-learning model was statistically indistinguishable from the HAR-RV benchmark (Diebold-Mariano p = 0.259), and HAR held up better in the 2020 crash.",
+  },
+];
+
 export const processSteps = [
   { title: "Hypothesis first", text: "The economic reason for a signal is written down before any test is run." },
   { title: "Data checks", text: "Look-ahead, survivorship and timing of every field are audited before modeling." },

@@ -11,7 +11,7 @@ import {
   type Results,
   type Segment,
 } from "@/lib/results";
-import { about, contact, GITHUB, lab, processSteps, studies, tools } from "@/content/site";
+import { about, contact, GITHUB, lab, processSteps, projectLessons, projectResults, studies, tools } from "@/content/site";
 
 export const revalidate = 3600;
 
@@ -331,8 +331,62 @@ export default async function Home() {
                 <h3 className="h3" style={{ fontSize: 24 }}>Disclosure</h3>
                 <p className="body">Every figure is labeled by the segment it comes from. The paper-trading log only ever gains rows, and its history is public.</p>
                 <div className="mono" style={{ fontSize: 13, lineHeight: 1.8 }}>
-                  <div>Failed studies: <span className="ph">[ADD LINK]</span></div>
+                  <div>Failed studies: <a href="#results" style={{ color: "var(--text)" }}>see project results</a></div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* PROJECT RESULTS */}
+        <section id="results" className="section">
+          <div className="wrap stack" style={{ gap: 32 }}>
+            <SectionHead
+              eyebrow="Project results"
+              title="Returns, with the risk beside them."
+              lead="Return comes first, then the Sharpe ratio, the worst drawdown, the period and the kind of test. These are backtests and simulations, not live results, and the benchmark is shown on the same footing."
+            />
+            <div className="tablebox">
+              <table className="qt">
+                <thead>
+                  <tr>
+                    <th>Return</th>
+                    <th>Project</th>
+                    <th>Sharpe</th>
+                    <th>Max drawdown</th>
+                    <th>Period</th>
+                    <th>Test</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projectResults.map((p) => (
+                    <tr key={p.name} style={p.benchmark ? { opacity: 0.7 } : undefined}>
+                      <td><T>{p.ret}</T></td>
+                      <td>
+                        <a href={p.href} style={{ color: "var(--text)" }}>{p.name}</a>
+                        <div style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}>{p.setup}</div>
+                        <div style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}><T>{p.note}</T></div>
+                      </td>
+                      <td>{p.sharpe}</td>
+                      <td><T>{p.drawdown}</T></td>
+                      <td><T>{p.period}</T></td>
+                      <td>{p.kind}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="stack" style={{ gap: 14 }}>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted)" }}>
+                What fell short, and why
+              </div>
+              <div className="row" style={{ gap: 20 }}>
+                {projectLessons.map((l) => (
+                  <div key={l.title} className="card stack" style={{ flex: "1 1 280px", gap: 10 }}>
+                    <h3 className="h3" style={{ fontSize: 22 }}>{l.title}</h3>
+                    <p className="body">{l.text}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
