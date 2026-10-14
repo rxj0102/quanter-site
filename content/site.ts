@@ -5,8 +5,8 @@ export const GITHUB = "https://github.com/rxj0102";
 
 export const contact = {
   github: { label: "GitHub: rxj0102", href: GITHUB },
-  email: "[YOUR EMAIL]",
-  linkedin: "[YOUR LINK]",
+  email: "rajvardhanjadhav124@gmail.com",
+  linkedin: "https://www.linkedin.com/in/rajvardhan-jadhav-03b201228",
   resume: "[ADD PDF]",
 };
 
@@ -50,20 +50,20 @@ export const studies: Study[] = [
   {
     slug: "regime-aware-volatility",
     tag: "Volatility",
-    title: "Regime-aware volatility forecasting",
+    title: "Can machine learning beat HAR-RV for next-day volatility?",
     question:
-      "Does conditioning on the market regime improve volatility forecasts, and the risk limits that are set from them?",
+      "Do machine-learning models and regime-switching ensembles forecast SPY realized volatility better than the HAR-RV benchmark?",
     status: "Draft",
     updated: "[ADD DATE]",
-    data: "[ADD SOURCE, UNIVERSE AND SAMPLE PERIOD]",
-    method: "[ADD MODELS COMPARED AND HOW FORECASTS ARE SCORED]",
-    result: "[ADD HEADLINE FINDING WITH ITS NUMBER AND SEGMENT]",
-    limit: "[ADD THE MAIN REASON THIS MIGHT BE WRONG]",
+    data: "SPY and VIX daily prices from Yahoo Finance (yfinance). Strict temporal 80/20 train/test split, plus a 2020 stress test trained on pre-COVID data and a 2024 to 2025 calm-period test.",
+    method: "HAR-RV and GARCH-family benchmarks against Lasso, ElasticNet, Random Forest and XGBoost, plus a constrained stacking ensemble and a regime-switching ensemble. Forecasts are compared with Diebold-Mariano tests (HAC-corrected) on MSE and QLIKE.",
+    result: "No machine-learning model beats HAR-RV: Diebold-Mariano p > 0.45 on both MSE and QLIKE (held-out test split). The regime-switching ensemble adds no measurable improvement, and HAR generalizes better in the 2020 stress test.",
+    limit: "[ADD YOUR OWN CAVEAT, FOR EXAMPLE: ONE ASSET, ONE SPLIT, NO MODEL LOSS VALUES REPORTED IN THE README]",
     figure: "[ADD FIGURE: for example, forecast error by regime]",
-    repo: "[ADD REPO NAME]",
-    repoHref: GITHUB,
-    notebook: "[ADD NOTEBOOK PATH]",
-    command: "[ADD COMMAND THAT REPRODUCES THE FIGURES]",
+    repo: "Volatility-Forecast-HAR",
+    repoHref: `${GITHUB}/Volatility-Forecast-HAR`,
+    notebook: "[CHECK PATH: README says notebooks/01_vol_forecast_har.ipynb, repo shows 05_vol_forecast_har.ipynb]",
+    command: "pip install -r requirements.txt && jupyter lab notebooks/01_vol_forecast_har.ipynb",
   },
   {
     slug: "risk-neutral-density",
@@ -73,23 +73,25 @@ export const studies: Study[] = [
       "What do option prices imply about the distribution of future returns, and how stable is that signal over time?",
     status: "Draft",
     updated: "[ADD DATE]",
-    data: "[ADD SOURCE, UNDERLYING AND SAMPLE PERIOD]",
-    method: "[ADD HOW THE DENSITY IS EXTRACTED AND CHECKED]",
-    result: "[ADD HEADLINE FINDING WITH ITS NUMBER AND SEGMENT]",
-    limit: "[ADD THE MAIN REASON THIS MIGHT BE WRONG]",
+    data: "Live AAPL option chain from Yahoo Finance (yfinance), 30-day expiry, April 2026 snapshot. Contracts filtered by open interest and bid-ask spread.",
+    method: "Implied vols from Black-Scholes (Brent). Densities from Breeden-Litzenberger (PCHIP spline), SVI and SSVI fits, compared with a historical density built from 5 years of rolling 30-day log returns.",
+    result: "The implied density is left-skewed and fatter-tailed than the historical one (skewness -0.59 with Breeden-Litzenberger, -0.37 with SSVI, against -0.02 historical). SSVI implied vol of 30.61% against 27.37% realized gives a variance risk premium of +3.24 points.",
+    limit: "One underlying and one expiry on one date, with no calendar-spread arbitrage checks. Breeden-Litzenberger densities can be noisy with real bid-ask data, and B-L and SVI underfit the left tail at short expiries.",
     figure: "[ADD FIGURE: for example, implied density on two dates]",
-    repo: "[ADD REPO NAME]",
-    repoHref: GITHUB,
-    notebook: "[ADD NOTEBOOK PATH]",
-    command: "[ADD COMMAND THAT REPRODUCES THE FIGURES]",
+    repo: "Risk-Neutral-Density",
+    repoHref: `${GITHUB}/Risk-Neutral-Density`,
+    notebook: "[CHECK PATH: README says notebooks/01_risk_neutral_density.ipynb, repo shows 04_risk_neutral_density.ipynb]",
+    command: "pip install -r requirements.txt && cd notebooks && jupyter notebook 01_risk_neutral_density.ipynb",
   },
 ];
 
 export const lab = [
-  { label: "Portfolio VaR modeling", href: GITHUB },
+  { label: "Portfolio VaR: 13 models, Christoffersen backtests", href: `${GITHUB}/Portfolio-VaR` },
+  { label: "Multi-asset alpha engine: ML views in Black-Litterman", href: `${GITHUB}/Alpha-Engine` },
+  { label: "Volatility forecasting: GARCH against gradient boosting", href: `${GITHUB}/Volatility-Forecasting` },
+  { label: "Next-day stock return prediction", href: `${GITHUB}/Stock-Return-Prediction` },
   { label: "Sovereign volatility engine", href: GITHUB },
-  { label: "Multi-asset alpha engine", href: GITHUB },
-  { label: "WorldQuant BRAIN alphas", href: GITHUB },
+  { label: "WorldQuant BRAIN alphas", href: "https://rxj0102.github.io" },
 ];
 
 export const tools = [

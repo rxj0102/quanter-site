@@ -410,10 +410,10 @@ export default async function Home() {
                 {contact.github.label}
               </a>
               <div style={{ fontSize: 16, padding: "12px 0", borderBottom: "1px solid var(--line)" }}>
-                <span style={{ color: "var(--muted)" }}>Email </span><T>{contact.email}</T>
+                <span style={{ color: "var(--muted)" }}>Email </span>{contact.email.startsWith("[") ? <T>{contact.email}</T> : <a href={`mailto:${contact.email}`} style={{ color: "var(--text)" }}>{contact.email}</a>}
               </div>
               <div style={{ fontSize: 16, padding: "12px 0", borderBottom: "1px solid var(--line)" }}>
-                <span style={{ color: "var(--muted)" }}>LinkedIn </span><T>{contact.linkedin}</T>
+                <span style={{ color: "var(--muted)" }}>LinkedIn </span>{contact.linkedin.startsWith("[") ? <T>{contact.linkedin}</T> : <a href={contact.linkedin} style={{ color: "var(--text)" }}>{contact.linkedin.replace("https://www.", "")}</a>}
               </div>
               <div style={{ fontSize: 16, padding: "12px 0" }}>
                 <span style={{ color: "var(--muted)" }}>Resume </span><T>{contact.resume}</T>
