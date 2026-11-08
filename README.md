@@ -1,5 +1,7 @@
 # Quanter site
 
+[![CI](https://github.com/rxj0102/quanter-site/actions/workflows/ci.yml/badge.svg)](https://github.com/rxj0102/quanter-site/actions/workflows/ci.yml)
+
 The Quanter website, built with Next.js. It reads `results.json` from the Quanter pipeline repo and shows live risk numbers, charts and the segment table. If the file is missing or unreachable, the page falls back to labeled placeholders instead of breaking.
 
 ## Run it
