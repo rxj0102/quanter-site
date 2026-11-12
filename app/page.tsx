@@ -4,8 +4,12 @@ import {
   DECAY_LABEL,
   FLAG_LABEL,
   getResults,
+  MIN_ANNUALIZE_DAYS,
   num,
   pct,
+  probabilisticSharpe,
+  segmentReturns,
+  segmentTotalReturn,
   SEGMENT_LABEL,
   STRATEGY_LABEL,
   type Results,
@@ -90,6 +94,7 @@ function SegmentTable({ r }: { r: Results }) {
             <th>Segment</th>
             <th>Period</th>
             <th>Days</th>
+            <th>Total return</th>
             <th>Annual return</th>
             <th>Annual vol</th>
             <th>Sharpe</th>
@@ -99,6 +104,8 @@ function SegmentTable({ r }: { r: Results }) {
         <tbody>
           {order.map((s) => {
             const x = r.segments[s];
+            const short = x.days < MIN_ANNUALIZE_DAYS;
+            const tooShort = <span style={{ color: "var(--muted)" }}>too short</span>;
             return (
               <tr key={s}>
                 <td>{SEGMENT_LABEL[s]}</td>
@@ -106,15 +113,20 @@ function SegmentTable({ r }: { r: Results }) {
                   {x.start && x.end ? `${x.start} to ${x.end}` : "--"}
                 </td>
                 <td className="mono">{x.days}</td>
-                <td className="mono">{pct(x.ann_return)}</td>
-                <td className="mono">{pct(x.ann_vol)}</td>
-                <td className="mono">{num(x.sharpe)}</td>
+                <td className="mono">{pct(segmentTotalReturn(r, s))}</td>
+                <td className="mono">{short ? tooShort : pct(x.ann_return)}</td>
+                <td className="mono">{short ? tooShort : pct(x.ann_vol)}</td>
+                <td className="mono">{short ? tooShort : num(x.sharpe)}</td>
                 <td className="mono">{pct(x.max_drawdown)}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <div className="mono" style={{ fontSize: 12, color: "var(--muted)", padding: "12px 16px", lineHeight: 1.6 }}>
+        Annualized figures are shown only after {MIN_ANNUALIZE_DAYS} trading days. Scaling a few weeks of returns to a
+        year says nothing about the strategy.
+      </div>
     </div>
   );
 }
@@ -126,6 +138,7 @@ export default async function Home() {
   const ds = s?.drawdown_stop;
   const dc = s?.decay;
   const publishedCount = studies.filter((x) => x.status === "Published").length;
+  const oosPsr = r ? probabilisticSharpe(segmentReturns(r, "out_of_sample")) : null;
 
   return (
     <>
@@ -304,7 +317,6 @@ export default async function Home() {
               eyebrow="Track record"
               title="Backtest and paper trading, kept apart."
               lead="A high Sharpe ratio proves little on its own. What matters is which part of the history was used to build a strategy and which part was never touched."
-              draft
             />
             {r ? <SegmentTable r={r} /> : null}
             <div className="row" style={{ gap: 20 }}>
@@ -314,7 +326,7 @@ export default async function Home() {
                 <div className="mono" style={{ fontSize: 13, lineHeight: 1.8 }}>
                   <div>Transaction cost: {a ? `${a.cost_bps} bps per unit of turnover` : <span className="ph">[ADD]</span>}</div>
                   <div>Risk-free rate in Sharpe: {a ? pct(a.risk_free_rate) : <span className="ph">[ADD]</span>}</div>
-                  <div>Slippage model: <span className="ph">[ADD]</span></div>
+                  <div>Slippage model: none beyond the cost above. Trades fill at the daily close.</div>
                 </div>
               </div>
               <div className="card stack" style={{ flex: "1 1 300px", gap: 12 }}>
@@ -323,8 +335,11 @@ export default async function Home() {
                 <div className="mono" style={{ fontSize: 13, lineHeight: 1.8 }}>
                   <div>In-sample ends: {a ? a.in_sample_end : <span className="ph">[ADD]</span>}</div>
                   <div>Decay check: {a?.decay_window ? `${a.decay_window}-day Sharpe against the validated range` : <span className="ph">[ADD]</span>}</div>
-                  <div>Trials counted: <span className="ph">[ADD]</span></div>
-                  <div>Adjusted Sharpe: <span className="ph">[ADD]</span></div>
+                  <div>Trials counted: 1. The rule and its parameters are unchanged since the first commit.</div>
+                  <div>
+                    Deflated Sharpe, out of sample:{" "}
+                    {oosPsr != null ? `${pct(oosPsr, 0)} chance the true Sharpe is above zero` : "--"}
+                  </div>
                 </div>
               </div>
               <div className="card stack" style={{ flex: "1 1 300px", gap: 12 }}>
@@ -399,7 +414,6 @@ export default async function Home() {
               eyebrow="Risk and process"
               title="How Quanter runs."
               lead="A fixed path from idea to monitored strategy, so no result depends on how a given week felt."
-              draft
             />
             <div className="row" style={{ gap: 16 }}>
               {processSteps.map((p, i) => (
@@ -470,7 +484,8 @@ export default async function Home() {
                 <span style={{ color: "var(--muted)" }}>LinkedIn </span>{contact.linkedin.startsWith("[") ? <T>{contact.linkedin}</T> : <a href={contact.linkedin} style={{ color: "var(--text)" }}>{contact.linkedin.replace("https://www.", "")}</a>}
               </div>
               <div style={{ fontSize: 16, padding: "12px 0" }}>
-                <span style={{ color: "var(--muted)" }}>Resume </span><T>{contact.resume}</T>
+                <span style={{ color: "var(--muted)" }}>Portfolio </span>
+                <a href={contact.portfolio} style={{ color: "var(--text)" }}>{contact.portfolio.replace("https://", "")}</a>
               </div>
             </div>
           </div>
