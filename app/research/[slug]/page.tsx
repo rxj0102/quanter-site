@@ -43,9 +43,17 @@ export default async function StudyPage({ params }: Props) {
 
       <h2 className="memo-h">Headline result</h2>
       <p className="memo-p"><T>{s.result}</T></p>
-      <div className="figure" role="img" aria-label="Figure placeholder">
-        <T>{s.figure}</T>
-      </div>
+      {s.figureSrc ? (
+        <figure style={{ margin: "24px 0 0" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={s.figureSrc} alt={s.figure ?? s.title} style={{ width: "100%", height: "auto", borderRadius: 10, background: "#fff" }} />
+          {s.figure ? (
+            <figcaption className="mono" style={{ fontSize: 12, color: "var(--muted)", marginTop: 10, lineHeight: 1.6 }}>
+              {s.figure}
+            </figcaption>
+          ) : null}
+        </figure>
+      ) : null}
 
       <h2 className="memo-h">Data</h2>
       <p className="memo-p"><T>{s.data}</T></p>
