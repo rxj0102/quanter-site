@@ -52,13 +52,13 @@ export const studies: Study[] = [
     tag: "Volatility",
     title: "Can machine learning beat HAR-RV for next-day volatility?",
     question:
-      "Do machine-learning models and regime-switching ensembles forecast SPY realized volatility better than the HAR-RV benchmark?",
+      "Do machine-learning models and regime-switching ensembles forecast US equity market realized volatility better than the HAR-RV benchmark?",
     status: "Draft",
-    updated: "2026-04-07",
-    data: "SPY and VIX daily data from Yahoo Finance, 2010-01-04 to 2025-12-30. Chronological split: training 2010-02-25 to 2022-10-21 (3,188 days), test 2022-10-24 to 2025-12-26 (797 days). Extra tests on the 2020 COVID crash and on 2024 to 2025.",
+    updated: "2026-11-14",
+    data: "Free open data: the Ken French US market total return as the SPY stand in and VIX from FRED (VIXCLS), 2010-01-04 to 2025-12-31. Chronological split: training 2010-02-25 to 2022-10-21 (3,188 days), test 2022-10-24 to 2025-12-29 (798 days). Extra tests on the 2020 COVID crash and on 2024 to 2025.",
     method: "HAR-RV and GARCH-family benchmarks against Lasso, ElasticNet, Random Forest and XGBoost, plus a constrained stacking ensemble and a regime-switching ensemble. Forecasts are compared with Diebold-Mariano tests (HAC-corrected) on MSE and QLIKE.",
-    result: "On the held-out test period HAR-RV and the best machine-learning model (Lasso) are statistically indistinguishable: Diebold-Mariano p = 0.259 (HAC-corrected, MSE). The regime-switching ensemble does worse than a plain equal-weight ensemble, and HAR holds up better in the 2020 stress test, with a mean squared error 39% lower than ElasticNet.",
-    limit: "One asset and one chronological split, with a test period of about 800 trading days. The stacking step puts all its weight on the linear models (Lasso 54%, ElasticNet 46%), so the nonlinear models add nothing here, and the result may not carry over to other assets.",
+    result: "HAR-RV has the lowest test error (MSE and QLIKE, test R2 0.73). The best machine-learning model (Lasso) has 12.8% higher MSE, but the gap is not significant: Diebold-Mariano p = 0.200 (HAC-corrected, MSE). HAR does significantly beat the GARCH family, Random Forest and XGBoost. The regime-switching ensemble does worse than a plain equal-weight ensemble, and in the 2020 stress test ElasticNet's mean squared error is 44% higher than HAR's.",
+    limit: "One asset and one chronological split, with a test period of about 800 trading days. The stacking step puts all its weight on the linear models (ElasticNet 68%, Lasso 32%), so the nonlinear models add nothing here. Open data has closes only, so the range-based Garman-Klass feature is not used, and the result may not carry over to other assets.",
     figure: "Evaluation dashboard from the notebook: forecast comparison across models",
     repo: "Volatility-Forecast-HAR",
     repoHref: `${GITHUB}/Volatility-Forecast-HAR`,
@@ -132,13 +132,13 @@ export interface ProjectResult {
 export const projectResults: ProjectResult[] = [
   {
     name: "Multi-asset alpha engine",
-    setup: "15 ETFs, machine-learning views in Black-Litterman, monthly rebalance, after costs",
-    ret: "10.70%",
-    sharpe: "0.46",
-    drawdown: "-28.89%",
-    period: "2020-01-01 to 2024-12-31",
+    setup: "13 ETF stand ins from open data, machine-learning views in Black-Litterman, monthly rebalance, after costs",
+    ret: "9.27%",
+    sharpe: "0.36",
+    drawdown: "-30.64%",
+    period: "2020-01-02 to 2024-12-31",
     kind: "Walk-forward backtest",
-    note: "Black-Litterman without the machine-learning views: 8.79% return, Sharpe 0.33.",
+    note: "Model active from 2021-12-31 (equal weight warm-up before). Without the machine-learning views: 9.50% return, Sharpe 0.37.",
     href: `${GITHUB}/Alpha-Engine`,
   },
   {
@@ -175,12 +175,12 @@ export const projectResults: ProjectResult[] = [
     href: "https://rxj0102.github.io",
   },
   {
-    name: "SPY buy and hold",
-    setup: "Benchmark for the alpha engine",
+    name: "US market buy and hold",
+    setup: "Benchmark for the alpha engine (Ken French US market, the SPY stand in)",
     ret: "15.64%",
-    sharpe: "0.60",
-    drawdown: "-33.93%",
-    period: "2020-01-01 to 2024-12-31",
+    sharpe: "0.53",
+    drawdown: "-34.22%",
+    period: "2020-01-02 to 2024-12-31",
     kind: "Benchmark",
     note: "Higher return than the alpha engine over the same window.",
     href: `${GITHUB}/Alpha-Engine`,
@@ -191,7 +191,7 @@ export const projectResults: ProjectResult[] = [
 export const projectLessons = [
   {
     title: "Alpha engine trailed SPY",
-    text: "It earned about 5 points a year less than SPY (10.7% against 15.6%) with a lower Sharpe (0.46 against 0.60). The deflated Sharpe ratio of 0.368 is below the 1.251 threshold for 15 trials, so the edge is not established. It did run at a beta of 0.58 with a shallower drawdown (-28.9% against -33.9%).",
+    text: "It earned about 6 points a year less than the US market (9.3% against 15.6%) with a lower Sharpe (0.36 against 0.53), and the version without machine-learning views did slightly better (Sharpe 0.37). The deflated Sharpe ratio of 0.460 is below the 0.776 threshold for 13 trials, so the edge is not established. It did run at a beta of 0.56 with a shallower drawdown (-30.6% against -34.2%).",
   },
   {
     title: "Return prediction found no real edge",
@@ -199,7 +199,7 @@ export const projectLessons = [
   },
   {
     title: "Machine learning did not beat HAR-RV",
-    text: "On next-day SPY volatility, the best machine-learning model was statistically indistinguishable from the HAR-RV benchmark (Diebold-Mariano p = 0.259), and HAR held up better in the 2020 crash.",
+    text: "On next-day US equity market volatility, HAR-RV had the lowest error and the best machine-learning model was statistically indistinguishable from it (Diebold-Mariano p = 0.200), and HAR held up better in the 2020 crash.",
   },
 ];
 
