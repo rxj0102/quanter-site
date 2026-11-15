@@ -131,13 +131,13 @@ export interface ProjectResult {
 export const projectResults: ProjectResult[] = [
   {
     name: "Multi-asset alpha engine",
-    setup: "13 ETF stand ins from open data, machine-learning views in Black-Litterman, monthly rebalance, after costs",
-    ret: "0.14%",
-    sharpe: "-0.37",
-    drawdown: "-20.20%",
-    period: "2022-01-03 to 2024-12-31",
+    setup: "13 open data stand ins for multi-asset ETFs, pooled machine-learning views in Black-Litterman, monthly rebalance, after costs",
+    ret: "9.17%",
+    sharpe: "0.56",
+    drawdown: "-35.60%",
+    period: "1996-10-01 to 2026-09-30",
     kind: "Walk-forward backtest",
-    note: "Measured from the first model rebalance. Without the machine-learning views: 2.56% return, Sharpe -0.13. Equal weight on the same assets: 4.88%, Sharpe 0.07.",
+    note: "Equal weight on the same assets: 10.46% return, Sharpe 0.60. Momentum views in the same optimiser: 10.61%, Sharpe 0.54. No difference from equal weight is significant.",
     href: `${GITHUB}/Alpha-Engine`,
   },
   {
@@ -154,12 +154,12 @@ export const projectResults: ProjectResult[] = [
   {
     name: "US market buy and hold",
     setup: "Benchmark for the alpha engine (Ken French US market, the SPY stand in)",
-    ret: "9.64%",
-    sharpe: "0.31",
-    drawdown: "-25.45%",
-    period: "2022-01-03 to 2024-12-31",
+    ret: "11.78%",
+    sharpe: "0.49",
+    drawdown: "-54.57%",
+    period: "1996-10-01 to 2026-09-30",
     kind: "Benchmark",
-    note: "Higher return than the alpha engine over the same window.",
+    note: "Higher return than the alpha engine over the same window, with more volatility and a deeper drawdown.",
     href: `${GITHUB}/Alpha-Engine`,
     benchmark: true,
   },
@@ -167,8 +167,8 @@ export const projectResults: ProjectResult[] = [
 
 export const projectLessons = [
   {
-    title: "Alpha engine trailed SPY",
-    text: "Measured from its first rebalance, it returned 0.14% a year against 9.64% for the US market, with a Sharpe of -0.37 against 0.31. The version without machine-learning views did better (Sharpe -0.13), and so did a plain equal-weight portfolio of the same assets (0.07). The live forecast skill was small and not significant (cross-sectional IC 0.05, p = 0.25). It ran at a beta of 0.43 with a shallower drawdown (-20.2% against -25.5%).",
+    title: "ML views did not beat equal weight",
+    text: "Over 30 years out of sample the machine-learning portfolio had a Sharpe of 0.56 against 0.60 for equal weight on the same assets, and the gap is not significant. The model does rank assets better than chance (rank IC 0.052, t = 2.4), and before costs its Sharpe is 0.68. But it turns over 6.7 times its capital a year, so costs take the gain, and the skill has faded: the IC was 0.10 in 1996-2006 and -0.01 since 2020. Momentum and bond carry views did no better.",
   },
   {
     title: "Return prediction found no real edge",
