@@ -37,10 +37,10 @@ export const studies: Study[] = [
     question:
       "Do six behavioral signals, from lottery preference to the disposition effect, predict S&P 500 stock returns after costs, and do they hold up in a holdout that was locked before any test?",
     status: "In progress",
-    updated: "2026-11-07",
+    updated: "2026-11-15",
     data: "Free data only: point-in-time S&P 500 membership rebuilt from the public change log, daily prices from Yahoo Finance, and Ken French factors. Development window 2005-01-03 to 2022, with a holdout from 2023-01-03 that the engine refuses to read.",
     method: "Six signals with signs locked before any real data was loaded: MAX lottery demand, 52-week-high anchoring, short-term reversal, capital gains overhang, realized skewness and abnormal volume. Quintile long-short portfolios rebalanced every 21 trading days, a deflated Sharpe ratio that counts every registered trial, and a comparison of mean-variance, risk parity and HRP weighting.",
-    result: "No result yet, by design. The code runs end to end on a synthetic market, and no real-data number will be published until the survivorship report reconciles membership to about 500 names a month. Pre-registration is in docs/hypotheses.md.",
+    result: "Two findings, both negative. First, the free data cannot carry the stock-level test: 250 of 867 historical index members have no price history, and 39 percent of index member days are missing in 2005 (9 percent in 2022), so the gate on stock-level results stays shut. Second, on published portfolios built from the full CRSP universe, none of the four testable locked signs is confirmed over 2005 to 2022 (largest t = 1.73), although three of the four were significant before 2005.",
     limit: "Yahoo Finance has no delisted tickers, so free price data biases every return estimate upward. The repo applies an assumed delisting loss and reports a sensitivity grid, but the true missing prices cannot be recovered from free sources.",
     repo: "sentinel",
     repoHref: `${GITHUB}/sentinel`,
