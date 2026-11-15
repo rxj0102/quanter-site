@@ -50,20 +50,19 @@ export const studies: Study[] = [
   {
     slug: "regime-aware-volatility",
     tag: "Volatility",
-    title: "Can machine learning beat HAR-RV for next-day volatility?",
-    question:
-      "Do machine-learning models and regime-switching ensembles forecast US equity market realized volatility better than the HAR-RV benchmark?",
+    title: "Can machine learning beat HAR at forecasting volatility?",
+    question: "Do lasso, random forest and gradient boosting forecast US equity variance better out of sample than the HAR model, given the same information plus the VIX and a leverage term?",
     status: "Published",
-    updated: "2026-11-14",
-    data: "Free open data: the Ken French US market total return as the SPY stand in and VIX from FRED (VIXCLS), 2010-01-04 to 2025-12-31. Chronological split: training 2010-02-25 to 2022-10-21 (3,188 days), test 2022-10-24 to 2025-12-29 (798 days). Extra tests on the 2020 COVID crash and on 2024 to 2025.",
-    method: "HAR-RV and GARCH-family benchmarks against Lasso, ElasticNet, Random Forest and XGBoost, plus a constrained stacking ensemble and a regime-switching ensemble. Forecasts are compared with Diebold-Mariano tests (HAC-corrected) on MSE and QLIKE.",
-    result: "HAR-RV has the lowest test error (MSE and QLIKE, test R2 0.73). The best machine-learning model (Lasso) has 12.8% higher MSE, but the gap is not significant: Diebold-Mariano p = 0.200 (HAC-corrected, MSE). HAR does significantly beat the GARCH family, Random Forest and XGBoost. The regime-switching ensemble does worse than a plain equal-weight ensemble, and in the 2020 stress test ElasticNet's mean squared error is 44% higher than HAR's.",
-    limit: "One asset and one chronological split, with a test period of about 800 trading days. The stacking step puts all its weight on the linear models (ElasticNet 68%, Lasso 32%), so the nonlinear models add nothing here. Open data has closes only, so the range-based Garman-Klass feature is not used, and the result may not carry over to other assets.",
-    figure: "Evaluation dashboard from the notebook: forecast comparison across models",
+    updated: "2026-11-15",
+    data: "Free open data: daily US market total return from the Ken French library and VIX from FRED, 1990-01-02 to 2026-09-30. Every model is refitted each January on earlier data only; forecasts run from 2000 (6725 out-of-sample days).",
+    method: "Target: the mean squared daily return over the next 1, 5 or 22 days, which never overlaps the inputs. Eleven models: no change, EWMA, GARCH, GJR-GARCH, a VIX regression, HAR, HAR with VIX and leverage, lasso, random forest, gradient boosting and a blend. Compared with QLIKE and squared error, Diebold-Mariano tests against HAR with Newey-West errors.",
+    result: "Sometimes, and it is the wrong comparison. A random forest has lower QLIKE loss than HAR at 1 and 5 days (t = -5.7 and -2.9) but not at 22 days and not under squared error. Gradient boosting has a higher QLIKE loss than HAR at every horizon. GJR-GARCH, an older model in which falling prices raise variance more than rising ones, beats HAR at 1 and 5 days (t = -6.7 and -4.7), and no machine-learning model is significantly better than it at any horizon.",
+    limit: "One asset. Squared daily returns are a noisy proxy for variance; free intraday history is not available. The forecast floor rule was changed once after a first run and the comparison against GJR-GARCH was added after seeing the results; both are disclosed in the repository. An earlier version of this study used a target that overlapped its inputs and reported HAR as the winner.",
+    figure: "QLIKE loss of each model relative to HAR at the three horizons",
     repo: "Volatility-Forecast-HAR",
     repoHref: `${GITHUB}/Volatility-Forecast-HAR`,
-    notebook: "notebooks/01_vol_forecast_har.ipynb",
-    command: "pip install -r requirements.txt && jupyter lab notebooks/01_vol_forecast_har.ipynb",
+    notebook: "scripts/reproduce.py",
+    command: "pip install -r requirements.txt && python scripts/reproduce.py",
   },
   {
     slug: "risk-neutral-density",
@@ -179,8 +178,8 @@ export const projectLessons = [
     text: "The volume-price family reached a Sharpe of 1.33 on WorldQuant BRAIN but a fitness of 0.55, below the 1.0 bar. Closing that gap at the same Sharpe needs about 3.3 times the return per unit of turnover. The buzz signal reached a Sharpe of 1.54 as a conditional filter, then needed turnover control.",
   },
   {
-    title: "Machine learning did not beat HAR-RV",
-    text: "On next-day US equity market volatility, HAR-RV had the lowest error and the best machine-learning model was statistically indistinguishable from it (Diebold-Mariano p = 0.200), and HAR held up better in the 2020 crash.",
+    title: "The model to beat was GJR-GARCH, not HAR",
+    text: "Over 26 years of walk-forward forecasts, a random forest beat HAR at short horizons under QLIKE but no machine-learning model was significantly better than GJR-GARCH, a 1993 model whose one extra parameter lets falling prices raise variance more than rising ones. What HAR lacked was the asymmetry, not flexibility. An earlier version of this study had HAR winning, because its target overlapped its own inputs.",
   },
 ];
 
