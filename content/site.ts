@@ -87,7 +87,7 @@ export const lab = [
   { label: "Portfolio VaR: ten models, 25 years out of sample, one passes", href: `${GITHUB}/Portfolio-VaR` },
   { label: "Multi-asset alpha engine: ML views in Black-Litterman", href: `${GITHUB}/Alpha-Engine` },
   { label: "Volatility forecasting: GARCH against gradient boosting", href: `${GITHUB}/Volatility-Forecasting` },
-  { label: "Next-day stock return prediction", href: `${GITHUB}/Stock-Return-Prediction` },
+  { label: "Next-day return prediction: a century of daily data, gone since 2000", href: `${GITHUB}/Stock-Return-Prediction` },
   { label: "Bank VaR disclosure audit: Kupiec and Christoffersen tests", href: `${GITHUB}/var-confidence-audit` },
   { label: "WorldQuant BRAIN alphas", href: "https://rxj0102.github.io/#brain" },
 ];
@@ -138,17 +138,6 @@ export const projectResults: ProjectResult[] = [
     kind: "Walk-forward backtest",
     note: "Equal weight on the same assets: 10.46% return, Sharpe 0.60. Momentum views in the same optimiser: 10.61%, Sharpe 0.54. No difference from equal weight is significant.",
     href: `${GITHUB}/Alpha-Engine`,
-  },
-  {
-    name: "Next-day stock return prediction",
-    setup: "AAPL, tuned random forest, long only",
-    ret: "7.46% total",
-    sharpe: "0.13",
-    drawdown: "-33.49%",
-    period: "2022 to 2023 (500 days)",
-    kind: "Backtest",
-    note: "Total return over the period, not annualised. Buy and hold: 6.99%, Sharpe 0.12, drawdown -30.02%.",
-    href: `${GITHUB}/Stock-Return-Prediction`,
   },
   {
     name: "US market buy and hold",
