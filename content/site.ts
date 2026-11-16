@@ -84,7 +84,7 @@ export const studies: Study[] = [
 ];
 
 export const lab = [
-  { label: "Portfolio VaR: 13 models, Christoffersen backtests", href: `${GITHUB}/Portfolio-VaR` },
+  { label: "Portfolio VaR: ten models, 25 years out of sample, one passes", href: `${GITHUB}/Portfolio-VaR` },
   { label: "Multi-asset alpha engine: ML views in Black-Litterman", href: `${GITHUB}/Alpha-Engine` },
   { label: "Volatility forecasting: GARCH against gradient boosting", href: `${GITHUB}/Volatility-Forecasting` },
   { label: "Next-day stock return prediction", href: `${GITHUB}/Stock-Return-Prediction` },
