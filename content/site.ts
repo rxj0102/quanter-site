@@ -88,7 +88,7 @@ export const lab = [
   { label: "Multi-asset alpha engine: ML views in Black-Litterman", href: `${GITHUB}/Alpha-Engine` },
   { label: "Volatility forecasting: GARCH against gradient boosting", href: `${GITHUB}/Volatility-Forecasting` },
   { label: "Next-day return prediction: a century of daily data, gone since 2000", href: `${GITHUB}/Stock-Return-Prediction` },
-  { label: "Bank VaR disclosure audit: Kupiec and Christoffersen tests", href: `${GITHUB}/var-confidence-audit` },
+  { label: "Bank VaR audit: cautious on average, thin in a crisis", href: `${GITHUB}/var-confidence-audit` },
   { label: "WorldQuant BRAIN alphas", href: "https://rxj0102.github.io/#brain" },
 ];
 
