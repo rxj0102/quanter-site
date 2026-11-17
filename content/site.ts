@@ -86,7 +86,6 @@ export const studies: Study[] = [
 export const lab = [
   { label: "Portfolio VaR: ten models, 25 years out of sample, one passes", href: `${GITHUB}/Portfolio-VaR` },
   { label: "Multi-asset alpha engine: ML views in Black-Litterman", href: `${GITHUB}/Alpha-Engine` },
-  { label: "Volatility forecasting: GARCH against gradient boosting", href: `${GITHUB}/Volatility-Forecasting` },
   { label: "Next-day return prediction: a century of daily data, gone since 2000", href: `${GITHUB}/Stock-Return-Prediction` },
   { label: "Bank VaR audit: cautious on average, thin in a crisis", href: `${GITHUB}/var-confidence-audit` },
   { label: "WorldQuant BRAIN alphas", href: "https://rxj0102.github.io/#brain" },
@@ -96,7 +95,7 @@ export const tools = [
   {
     title: "QuantQuest interview prep",
     text: "Quant interview practice with a skill tree, spaced review and a timed interview mode. Every question is checked by code before it can appear.",
-    href: `${GITHUB}/quantquest`,
+    href: `${GITHUB}/quantquest.github.io`,
     cta: "Read the code",
   },
   {
