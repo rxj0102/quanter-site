@@ -84,7 +84,7 @@ export const studies: Study[] = [
 ];
 
 export const lab = [
-  { label: "Portfolio VaR: ten models, 25 years out of sample, one passes", href: `${GITHUB}/Portfolio-VaR` },
+  { label: "Portfolio VaR: ten models, 25 years out of sample, none passes every test", href: `${GITHUB}/Portfolio-VaR` },
   { label: "Multi-asset alpha engine: ML views in Black-Litterman", href: `${GITHUB}/Alpha-Engine` },
   { label: "Next-day return prediction: a century of daily data, gone since 2000", href: `${GITHUB}/Stock-Return-Prediction` },
   { label: "Bank VaR audit: cautious on average, thin in a crisis", href: `${GITHUB}/var-confidence-audit` },
